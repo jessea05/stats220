@@ -42,20 +42,20 @@ video_length_max <- max(latest_data$video_length)
 
 plot1 <- ggplot(data = latest_data) +
   geom_bar(aes(x = video_genre), fill = "#007d7f") +
-  labs(title = "Number of YouTube videos watched for each genre",
+  labs(title = "1. Number of YouTube videos watched for each genre",
        x = "Genre of video",
        y = "Number of videos")
 
 plot2 <- ggplot(data = latest_data) +
   geom_bar(aes(y = video_rating, fill = video_genre)) +
-  labs(title = "Comparing the genre and rating of YouTube videos watched",
+  labs(title = "2. Comparing the genre and rating of YouTube videos watched",
        x = "Number of videos",
        y = "Rating of video",
        fill = "Genre of video")
 
 plot3 <- ggplot(data = latest_data) +
   geom_bar(aes(x = video_length), fill = "#ffbb1d") +
-  labs(title = "Length of YouTube videos watched",
+  labs(title = "3. Length of YouTube videos watched",
        x = "Length of Video",
        y = "Number of videos")
 
