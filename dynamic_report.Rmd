@@ -1,0 +1,68 @@
+---
+title: My dynamic report
+output: html_fragment
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
+
+```
+
+```{css}
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {
+  font-family: "Raleway";
+  background-color: #ffe9fc;
+}
+```
+
+## Trends in YouTube Video Lengths, Genres, and Ratings
+
+This dynamic report is using data from the Google Form "YouTube Video Survey" to show the trends in YouTube video lengths, genres, and ratings. Below are three bar charts that show these trends:
+
+
+```{r}
+library(tidyverse)
+
+logged_data <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vR5sXdkO2D2_-yiml0TjvjOPx4HA5_mtKAWcdcFm3RqAXV7VUJjUiITM71bLlEs3c4zVCQCIlW1EoON/pub?gid=675003049&single=true&output=csv")
+
+latest_data <- logged_data %>%
+  rename(video_length = 2,
+         video_genre = 3,
+         video_rating = 4)
+
+video_length_mean <- mean(latest_data$video_length) %>% round(1)
+
+video_rating_mean <- mean(latest_data$video_rating) %>% round(1)
+
+video_length_total <- sum(latest_data$video_length)
+
+video_length_max <- max(latest_data$video_length)
+
+plot1 <- ggplot(data = latest_data) +
+  geom_bar(aes(x = video_genre), fill = "#007d7f") +
+  labs(title = "Number of YouTube videos watched for each genre",
+       x = "Genre of video",
+       y = "Number of videos")
+
+plot2 <- ggplot(data = latest_data) +
+  geom_bar(aes(y = video_rating, fill = video_genre)) +
+  labs(title = "Comparing the genre and rating of YouTube videos watched",
+       x = "Number of videos",
+       y = "Rating of video",
+       fill = "Genre of video")
+
+plot3 <- ggplot(data = latest_data) +
+  geom_bar(aes(x = video_length), fill = "#ffbb1d") +
+  labs(title = "Length of YouTube videos watched",
+       x = "Length of Video",
+       y = "Number of videos")
+
+plot1
+plot2
+plot3
+```
+
+
+The average rating of YouTube video is `r video_rating_mean` out of 5, which we can deduce from the second plot above, which shows the video ratings up the y-axis. The total time watched of YouTube videos is `r video_length_total` minutes, and the average length of the YouTube videos is `r video_length_mean` minutes. The max video length is `r video_length_max` minutes, which we can see on the third plot above as the rightmost bar along the x-axis.
